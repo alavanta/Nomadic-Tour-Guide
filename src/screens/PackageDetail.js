@@ -169,16 +169,10 @@ class PackageDetail extends Component {
 						</View>
 					</ScrollView>
 					<View style={styles.footer}>
-						<View style={styles.detailFooter}>
-							<Text numberOfLines={1} style={{ color: '#000', fontSize: 16 }}>
-								Rp{this.priceFormating(this.props.navigation.state.params.package_price)}
-							</Text>
-							<Text numberOfLines={1} style={{ color: '#444', fontSize: 10 }}>
-								{this.props.navigation.state.params.package_name}
-							</Text>
-						</View>
 						<TouchableOpacity
-							// onPress={() => this.bookingHandler()}
+							onPress={() => {
+								this.props.navigation.navigate('Chat', this.props.navigation.state.params)
+							}}
 							style={styles.button}
 						>
 							<Text style={{ color: '#FFF', fontWeight: '500', fontSize: 16 }}>
@@ -313,7 +307,7 @@ const styles = StyleSheet.create({
 	button: {
 		backgroundColor: '#EF4453',
 		padding: 10,
-		width: width * 0.5,
+		width: '100%',
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 5,

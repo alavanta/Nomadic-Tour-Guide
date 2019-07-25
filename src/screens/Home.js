@@ -38,7 +38,6 @@ class Home extends Component {
   }
 
   render() {
-    console.warn()
     return (
       <View style={styles.bodyParent}>
         <TabView
