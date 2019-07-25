@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import { Button, Icon, Card } from 'react-native-elements';
 // import { fetchBooking } from '../../public/redux/action';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 
 const booking = [
   {
@@ -25,7 +26,7 @@ const booking = [
   },
   {
     id: 2,
-    package_name: 'Yogyakarta Simple Plan Vacation',
+    package_name: 'Yogyakarta Simple Vacation Plan',
     package_description:
       'blakbkawakoskawoadkwokdaowdkaowdkwadk;awdoanawodaowdawd',
     package_price: '300.000',
@@ -55,6 +56,7 @@ class Booking extends Component {
 
   BookedList = ({ item, index }) => (
     <View style={{ flex: 1, flexDirection: 'row' }}>
+      <TouchableOpacity style={{width:'100%'}}  onPress={()=> this.props.navigation.navigate('PackageDetail',item)}>
       <Card
         image={{ uri: item.package_image }}
         containerStyle={{ width: '90%' }}
@@ -65,6 +67,7 @@ class Booking extends Component {
           <Text style={{ fontWeight: 'bold' }}>Rp. {item.package_price}</Text>
         </View>
       </Card>
+      </TouchableOpacity>
     </View>
   );
 
@@ -129,6 +132,7 @@ class Booking extends Component {
             ) : (
               <View style={{ flex: 1,marginBottom:10 }}>
                 <FlatList
+                showsVerticalScrollIndicator={false}
                   keyExtractor={item => {
                     item.id.toString();
                   }}
@@ -152,4 +156,4 @@ class Booking extends Component {
 // };
 
 // export default connect(mapStateToProps)(Booking);
-export default Booking;
+export default withNavigation(Booking);
