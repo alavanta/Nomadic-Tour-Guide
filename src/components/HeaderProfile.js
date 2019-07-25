@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, AsyncStorage, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 //=============== Icons ================//
@@ -12,12 +12,15 @@ import {
     Button
 } from 'react-native-elements'
 
-logout = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('AuthLoading');
-}
 
 class Header extends Component {
+
+    logout = async () => {
+        await AsyncStorage.clear();
+        this.props.navigation.navigate('AuthLoading');
+
+    }
+
     render() {
         return (
             <View style={styles.parentHeader}>
@@ -25,7 +28,26 @@ class Header extends Component {
                     <Text style={styles.headerText}>Profile</Text>
                 </View>
                 <Button 
-                    onPress={this.logout}
+                    onPress={() => {
+                        Alert.alert(
+                            "Logout",
+                            "Are you sure want to leave?",
+                            [
+                                {
+                                    text: "NO", onPress: () => {
+                                        
+                                    }
+                                },
+                                {
+                                    text: "YES", onPress: () => {
+                                        
+                                        this.logout()
+                                    }
+                                }
+                            ],
+                            { cancelable: false }
+                        )
+                    }}
                     buttonStyle={{backgroundColor: 'rgba(0,0,0,0)'}}
                     icon={
                         <Ionicons
