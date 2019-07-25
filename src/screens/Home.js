@@ -13,6 +13,7 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { connect } from 'react-redux';
 
 import Main from './tabmenu/Main';
+import Booking from './tabmenu/Booking';
 import Profile from './tabmenu/Profile';
 
 class Home extends Component {
@@ -37,14 +38,13 @@ class Home extends Component {
   }
 
   render() {
-    console.warn()
     return (
       <View style={styles.bodyParent}>
         <TabView
           tabBarPosition="bottom"
           navigationState={this.state}
           renderScene={SceneMap({
-            first: Main,
+            first: Booking,
             second: Profile,
           })}
           onIndexChange={index => this.setState({ index })}

@@ -30,10 +30,9 @@ class Profile extends Component {
 		})
 	}
 	render() {
-		console.warn(this.props.user)
 		return (
 			<SafeAreaView style={{ flex: 1 }}>
-				<Header />
+				<Header navigation={this.props.navigation} />
 				<View style={styles.background}>
 					<LinearGradient colors={['#F4A386', '#EF4453']} style={styles.redBackground}>
 
@@ -93,7 +92,7 @@ class Profile extends Component {
 							size={18}
 						/>
 						<Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
-							{this.props.user.guide_name}
+							{this.props.user.guide_gender == 'M' ? 'Male' : 'Female'}
 						</Text>
 					</View>
 
@@ -103,7 +102,7 @@ class Profile extends Component {
 							size={18}
 						/>
 						<Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
-							{this.props.user.guide_age}
+							{this.props.user.guide_email}
 						</Text>
 					</View>
 
@@ -127,9 +126,9 @@ class Profile extends Component {
 						</Text>
 					</View>
 					<View style={styles.textContainer}>
-						<Entypo
-							name="location-pin"
-							
+						<AntDesign
+							name="database"
+							size={18}
 						/>
 						<Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
 
@@ -225,4 +224,6 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps)(withNavigation(Profile));
+
+export default withNavigation(connect(mapStateToProps)(Profile));
+

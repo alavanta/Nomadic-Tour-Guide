@@ -13,6 +13,7 @@ export default user = (state = initialState, action) => {
         case 'FETCH_USER_PENDING':
         case 'CHANGE_PASSWORD_PENDING':
             console.warn('masuk pending')
+
             return {
                 ...state,
                 isLoading: true,
@@ -22,7 +23,7 @@ export default user = (state = initialState, action) => {
         case 'FETCH_DATA_USER_REJECTED':
         case 'FETCH_USER_REJECTED':
         case 'CHANGE_PASSWORD_REJECTED':
-            console.warn('masuk reject')
+
             return {
                 ...state,
                 isLoading: false,
@@ -34,7 +35,7 @@ export default user = (state = initialState, action) => {
 
             AsyncStorage.setItem('token', action.payload.data.token);
             AsyncStorage.setItem('user', action.payload.data.data[0].guide_phone);
-            // console.warn(action.payload.data.data, ' ',action.payload.data.token)
+            AsyncStorage.setItem('name', action.payload.data.data[0].guide_name);
             return {
                 ...state,
                 isLoading: false,
@@ -53,7 +54,6 @@ export default user = (state = initialState, action) => {
                 data: action.payload.data.data
             }
         case 'CHANGE_PASSWORD_FULFILLED':
-            console.warn('masuk fulfilled')
             return {
                 ...state,
                 isLoading: false,
