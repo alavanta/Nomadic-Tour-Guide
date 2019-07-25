@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Image, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Image, TextInput, AsyncStorage } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -7,6 +7,8 @@ import { Avatar, ListItem, Button } from 'react-native-elements';
 
 import Header from '../../components/HeaderProfile'
 
+import { fetchDataUser } from '../../public/redux/actions';
+import { connect } from 'react-redux';
 //=============== Icons ================//
 
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
@@ -18,145 +20,121 @@ import { withNavigation } from 'react-navigation'
 
 class Profile extends Component {
 
-    render() {
-        return (
-            <SafeAreaView style={{flex: 1}}>
-                <Header />
-                <View style={styles.background}>
-                    <LinearGradient colors={['#F4A386','#EF4453']} style={styles.redBackground}>
+	// Get data users
+	componentDidMount() {
+		this.getData();
+	}
+	getData = () => {
+		AsyncStorage.getItem('token').then((res) => {
+			this.props.dispatch(fetchDataUser(res))
+		})
+	}
+	render() {
+		console.warn(this.props.user)
+		return (
+			<SafeAreaView style={{ flex: 1 }}>
+				<Header />
+				<View style={styles.background}>
+					<LinearGradient colors={['#F4A386', '#EF4453']} style={styles.redBackground}>
 
-                    </LinearGradient>
-                    <View style={styles.whiteBackground}>
+					</LinearGradient>
+					<View style={styles.whiteBackground}>
 
-                    </View>
-                </View>
+					</View>
+				</View>
 
-                <View style={styles.profileContainer}>
-                	<View style={{
-                		padding: 10,
-                		backgroundColor: 'rgba(255,255,255,0.3)',
-                		borderRadius: 100,
-                		top: 50
-                	}}>
-                		<View style={{
-	                		padding: 10,
-	                		backgroundColor: 'rgba(255,255,255,0.5)',
-	                		borderRadius: 100
+				<View style={styles.profileContainer}>
+					<View style={{
+						padding: 10,
+						backgroundColor: 'rgba(255,255,255,0.3)',
+						borderRadius: 100,
+						top: 50
+					}}>
+						<View style={{
+							padding: 10,
+							backgroundColor: 'rgba(255,255,255,0.5)',
+							borderRadius: 100
 
-	                	}}>
-                			<Avatar
-							  	size={100}
-							  	rounded
-							  	title="D"
-							  	source={{uri: 'https://d2e111jq13me73.cloudfront.net/sites/default/files/styles/video_thumbnail_hd_large/public/video-thumbnails/spiderman-into-the-spiderverse-site.jpg?itok=woEz0M0y'}}
+						}}>
+							<Avatar
+								size={100}
+								rounded
+								title="D"
+								source={{ uri: this.props.user.guide_photo }}
 							/>
-                		</View>
-                	</View>
-                	<Text numberOfLines={1} style={styles.name}>
-                		Dwi Nugroho
-                	</Text>
-                </View>
+						</View>
+					</View>
+					<Text numberOfLines={1} style={styles.name}>
+						{this.props.user.guide_name}
+					</Text>
+				</View>
 
-                <ScrollView style={{
-                	paddingHorizontal: 20
-                }}>
+				<ScrollView style={{
+					paddingHorizontal: 20
+				}}>
 
-                	<Text  style={styles.biodataText}>
+					<Text style={styles.biodataText}>
 						Biodata
 					</Text>
 
 					<View style={styles.textContainer}>
 						<Fontisto
-                          	name="date"
-                          	size={18}
-                        />
-                        <Text style={{marginLeft: 10, fontWeight:'bold'}}>
-                        	19 Years Old
+							name="date"
+							size={18}
+						/>
+						<Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
+							{this.props.user.guide_age} Years Old
                         </Text>
 					</View>
 
 					<View style={styles.textContainer}>
 						<MaterialCommunityIcons
-                          	name="gender-male-female"
-                          	size={18}
-                        />
-                        <Text style={{marginLeft: 10, fontWeight:'bold'}}>
-                        	Male
-                        </Text>
+							name="gender-male-female"
+							size={18}
+						/>
+						<Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
+							{this.props.user.guide_name}
+						</Text>
 					</View>
 
 					<View style={styles.textContainer}>
 						<MaterialCommunityIcons
-                          	name="email"
-                          	size={18}
-                        />
-                        <Text style={{marginLeft: 10, fontWeight:'bold'}}>
-                        	adwinugroho1@gmail.com
-                        </Text>
+							name="email"
+							size={18}
+						/>
+						<Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
+							{this.props.user.guide_age}
+						</Text>
 					</View>
 
 					<View style={styles.textContainer}>
 						<Entypo
-                          	name="phone"
-                          	size={18}
-                        />
-                        <Text style={{marginLeft: 10, fontWeight:'bold'}}>
-                        	085336685269
-                        </Text>
+							name="phone"
+							size={18}
+						/>
+						<Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
+							{this.props.user.guide_phone}
+						</Text>
 					</View>
 
 					<View style={styles.textContainer}>
 						<Entypo
-                          	name="location-pin"
-                          	size={18}
-                        />
-                        <Text style={{marginLeft: 10, fontWeight:'bold'}}>
-                        	Jl. xxx No. 18 Yogyakarta
-                        </Text>
+							name="location-pin"
+							size={18}
+						/>
+						<Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
+							{this.props.user.guide_address}
+						</Text>
 					</View>
-
 					<View style={styles.textContainer}>
-						<AntDesign
-                          	name="database"
-                          	size={18}
-                        />
-                       	<View>
+						<Entypo
+							name="location-pin"
+							
+						/>
+						<Text style={{ marginLeft: 10, fontWeight: 'bold' }}>
 
-                       		<Text style={{marginLeft: 10, fontWeight:'bold'}}>
-                        		Skills
-                        	</Text>
-
-                        	<View style={{flexDirection: 'row', marginLeft: 5}}>
-	                        	<AntDesign
-		                          	name="minus"
-		                          	size={18}
-		                        />
-		                        <Text style={{marginLeft: 10, fontWeight:'bold'}}>
-		                        	English Language
-		                        </Text>
-	                        </View>
-
-	                        <View style={{flexDirection: 'row', marginLeft: 5}}>
-	                        	<AntDesign
-		                          	name="minus"
-		                          	size={18}
-		                        />
-		                        <Text style={{marginLeft: 10, fontWeight:'bold'}}>
-		                        	English Language
-		                        </Text>
-	                        </View>
-
-	                        <View style={{flexDirection: 'row', marginLeft: 5}}>
-	                        	<AntDesign
-		                          	name="minus"
-		                          	size={18}
-		                        />
-		                        <Text style={{marginLeft: 10, fontWeight:'bold'}}>
-		                        	English Language
-		                        </Text>
-	                        </View>
-                       	</View>
-
+							{this.props.user.guide_abilities}
+						</Text>
 					</View>
 
 
@@ -170,46 +148,46 @@ class Profile extends Component {
 						/>
 					</View>
 
-					<View style={{height: 20}} />
-				    
-                </ScrollView>
-                
-            </SafeAreaView>
-        )
-    }
+					<View style={{ height: 20 }} />
+
+				</ScrollView>
+
+			</SafeAreaView>
+		)
+	}
 }
 
 const styles = StyleSheet.create({
-    background: {
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        zIndex: -999,
-        flexDirection: 'column'
-    },
-    redBackground: {
-        height: 200,
-        borderBottomLeftRadius: 100, 
-        borderBottomRightRadius: 0, 
-    },
-    whiteBackground: {
-        flex: 1,
-        backgroundColor: 'white'
-    },
-    profileContainer: {
-    	height: 200,
-    	flexDirection: 'row',
-    	alignItems: 'flex-end',
-    	marginHorizontal: 10
-    },
-    name: {
-    	fontSize: 30,
-    	color: 'white',
-    	marginHorizontal: 20,
-    	marginBottom: 10,
-    	fontWeight: 'bold'
-    },
-    biodataText: {
+	background: {
+		position: 'absolute',
+		width: '100%',
+		height: '100%',
+		zIndex: -999,
+		flexDirection: 'column'
+	},
+	redBackground: {
+		height: 200,
+		borderBottomLeftRadius: 100,
+		borderBottomRightRadius: 0,
+	},
+	whiteBackground: {
+		flex: 1,
+		backgroundColor: 'white'
+	},
+	profileContainer: {
+		height: 200,
+		flexDirection: 'row',
+		alignItems: 'flex-end',
+		marginHorizontal: 10
+	},
+	name: {
+		fontSize: 30,
+		color: 'white',
+		marginHorizontal: 20,
+		marginBottom: 10,
+		fontWeight: 'bold'
+	},
+	biodataText: {
 		backgroundColor: '#FF4453',
 		alignSelf: 'flex-end',
 		paddingHorizontal: 25,
@@ -240,7 +218,13 @@ const styles = StyleSheet.create({
 		paddingVertical: 7,
 		marginBottom: 20,
 	},
-	
+
 })
 
-export default withNavigation(Profile);
+const mapStateToProps = state => {
+	return {
+		user: state.user.data
+	};
+};
+
+export default connect(mapStateToProps)(Profile);

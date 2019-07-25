@@ -6,8 +6,11 @@ import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 //======= React Native Tab View =======//
 
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-
 //============= Tab Menu =============//
+
+//============= Reducer =============//
+// import { fetchUser } from '../public/redux/action';
+import { connect } from 'react-redux';
 
 import Main from './tabmenu/Main';
 import Profile from './tabmenu/Profile';
@@ -34,6 +37,7 @@ class Home extends Component {
   }
 
   render() {
+    console.warn()
     return (
       <View style={styles.bodyParent}>
         <TabView
