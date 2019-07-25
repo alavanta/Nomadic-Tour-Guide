@@ -24,6 +24,7 @@ class Login extends Component {
 			errEmail: '',
 			password: '',
 			errPassword: '',
+			isLoading: false,
 		};
 	}
 
@@ -60,6 +61,11 @@ class Login extends Component {
 	}
 
 	validate = async () => {
+
+		this.setState({
+			isLoading: true
+		})
+
 		if (this.state.errEmail === false && this.state.errPassword == false) {
 			let { email, password } = this.state;
 			let data = {
@@ -75,9 +81,14 @@ class Login extends Component {
 					})
 				})
 				.catch(err => {
-					this.setState({ errAuth: true });
+					alert('the email or password you entered is incorect')
+					this.setState({
+						password: '',
+						isLoading: false
+					})
 				});
-			this.loginHandler();
+
+			//this.loginHandler();
 		}
 	};
 
@@ -158,6 +169,7 @@ class Login extends Component {
 								buttonStyle={styles.loginButton}
 								title="Next"
 								onPress={this.validate}
+								loading={this.state.isLoading}
 							/>
 						</View>
 
