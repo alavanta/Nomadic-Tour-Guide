@@ -18,12 +18,6 @@ import { withNavigation } from 'react-navigation'
 
 class Profile extends Component {
 
-
-
-	handleEditProfile = () => {
-		this.props.navigation.navigate('EditProfile')
-	}
-
     render() {
         return (
             <SafeAreaView style={{flex: 1}}>
@@ -168,15 +162,11 @@ class Profile extends Component {
 
 					<View style={styles.buttonWrap}>
 						<Button
-							buttonStyle={[styles.buttonBottom, {
-								backgroundColor: '#FF4453'
-							}]}
-							title="Edit Profile"
-							onPress={this.handleEditProfile}
-						/>
-						<Button
 							buttonStyle={styles.buttonBottom}
 							title="Change Password"
+							onPress={() => {
+								this.props.navigation.navigate('ChangePassword')
+							}}
 						/>
 					</View>
 
@@ -250,17 +240,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 7,
 		marginBottom: 20,
 	},
-	buttonWrap: {
-		width: '100%',
-		marginTop: 20
-	},
-	loginButton: {
-		backgroundColor: '#FF4453',
-		borderBottomRightRadius: 5,
-		borderTopLeftRadius: 5,
-		borderBottomLeftRadius: 5,
-		paddingVertical: 7
-	}
+	
 })
 
 export default withNavigation(Profile);
