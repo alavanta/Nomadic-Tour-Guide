@@ -10,6 +10,7 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 //============= Tab Menu =============//
 
 import Main from './tabmenu/Main';
+import Booking from './tabmenu/Booking';
 import Profile from './tabmenu/Profile';
 
 class Home extends Component {
@@ -40,7 +41,7 @@ class Home extends Component {
           tabBarPosition="bottom"
           navigationState={this.state}
           renderScene={SceneMap({
-            first: Main,
+            first: Booking,
             second: Profile,
           })}
           onIndexChange={index => this.setState({ index })}
