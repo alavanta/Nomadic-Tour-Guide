@@ -30,7 +30,7 @@ export default user = (state = initialState, action) => {
 
             AsyncStorage.setItem('token', action.payload.data.token);
             AsyncStorage.setItem('user', action.payload.data.data[0].guide_phone);
-            // console.warn(action.payload.data.data, ' ',action.payload.data.token)
+            AsyncStorage.setItem('name', action.payload.data.data[0].guide_name);
             return {
                 ...state,
                 isLoading: false,

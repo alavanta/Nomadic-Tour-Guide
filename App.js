@@ -11,10 +11,17 @@ import { Provider } from 'react-redux';
 
 import AppNavigation from './src/route/AppNavigator'
 
+import Firebase from './src/public/Firebase'
+
 YellowBox.ignoreWarnings(['ViewPagerAndroid']);
 YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
 
 export default class App extends Component {
+
+	componentDidMount() {
+		Firebase.init()
+	}
+
 	render() {
 		return (
 			<Provider store={store}>

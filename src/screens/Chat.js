@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {
 	View,
 	Text,
-	StyleSheet
+	StyleSheet,
+	AsyncStorage
 } from 'react-native'
 import { withNavigation } from 'react-navigation'
 
@@ -11,6 +12,8 @@ import { Button } from 'react-native-elements';
 import Entypo from 'react-native-vector-icons/dist/Entypo';
 
 import { GiftedChat } from 'react-native-gifted-chat'
+
+import firebase from '../public/Firebase'
 
 
 function Header(props) {
@@ -57,31 +60,59 @@ class PrivateChat extends Component {
 	  	super(props);
 	
 	  	this.state = {
-	  		messages: []
+	  		messages: [],
+	  		phoneSelf: '',
+	  		nameSelf: ''
 	  	};
+
+	  	this.getData();
+
+	}
+
+	getData = async () => {
+		const phone = await AsyncStorage.getItem('user')
+		const name = await AsyncStorage.getItem('name')
+
+		await this.setState({
+			phoneSelf: phone,
+			nameSelf: name
+		})
 	}
 
 	componentWillMount() {
-	    this.setState({
-	      	messages: [
-	        	{
-	          		_id: 1,
-	          		text: 'Hello developer',
-	          		createdAt: new Date(),
-	          		user: {
-	            		_id: 2,
-	            		name: 'React Native',
-	            		avatar: 'https://placeimg.com/140/140/any',
-	          		},
-	        	},
-	      	],
-	    })
+	    firebase
+    	.database()
+    	.ref('messages')
+    	.child(this.props.navigation.state.params.id)
+    	.on('child_added', value => {
+      		this.setState(previousState => ({
+        		messages: GiftedChat.append(
+          			previousState.messages,
+          			value.val()
+        		),
+        		isLoading: false
+      		}));
+    	});
 	}
 
   	onSend(messages = []) {
-    	this.setState(previousState => ({
-      		messages: GiftedChat.append(previousState.messages, messages),
-    	}))
+
+    	let msgId = firebase.database().ref('messages').child(this.props.navigation.state.params.id).push().key;
+		let updates = {};
+		let message = {
+			_id: msgId,
+			text: messages[0].text,
+			createdAt: firebase.database.ServerValue.TIMESTAMP,
+			user: {
+				_id: this.state.phoneSelf,
+				name: this.state.nameSelf,
+			}
+		}
+
+		updates['messages/' + this.props.navigation.state.params.id + '/' + msgId] = message;
+
+		firebase.database().ref().update(updates);
+
   	}
 
 	render () {
@@ -95,7 +126,7 @@ class PrivateChat extends Component {
 			        messages={this.state.messages}
 			        onSend={messages => this.onSend(messages)}
 			        user={{
-			          _id: 1,
+			          _id: this.state.phoneSelf,
 			        }}
 		      	/>
 			</View>

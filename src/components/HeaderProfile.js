@@ -18,7 +18,6 @@ class Header extends Component {
     logout = async () => {
         await AsyncStorage.clear();
         this.props.navigation.navigate('AuthLoading');
-
     }
 
     render() {
