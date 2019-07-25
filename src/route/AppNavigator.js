@@ -10,11 +10,13 @@ import AuthLoading from '../screens/AuthLoading'
 import Login from '../screens/Login'
 import Home from '../screens/Home'
 import EditProfile from '../screens/EditProfile'
+import ChangePassword from '../screens/ChangePassword'
 
 const AppStack = createStackNavigator({
 
 	Home: Home,
-	EditProfile: EditProfile
+	EditProfile: EditProfile,
+	ChangePassword: ChangePassword
 
 },{
 	headerMode: 'none'
