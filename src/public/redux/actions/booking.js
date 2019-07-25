@@ -7,6 +7,6 @@ export const fetchBooking = (token, data) => {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   return {
     type: 'FETCH_BOOKING',
-    payload: axios.get(`${url}/booking`, data)
+    payload: axios.get(`${url}/booking/getByGuide`, data)
   };
 };

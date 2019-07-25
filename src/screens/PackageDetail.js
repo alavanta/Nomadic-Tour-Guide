@@ -14,19 +14,23 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
-// import { fetchPackageById } from '../public/redux/action';
+import { fetchPackageById } from '../public/redux/actions';
 import { connect } from 'react-redux';
 
 const destination_dummmy = [
 	{
 		id:1,
 		destination_image:'https://cdn2.tstatic.net/makassar/foto/bank/images/misteri-jam-raksasa-di-candi-borobudur-mengungkap-matahari-yang-tak-selalu-terbit-di-timur.jpg',
-		destination_name:'Candi Borobudur'
+		destination_name:'Candi Borobudur',
+		latitude:-7.60765000,
+		longitude:110.20377300
 	},
 	{
 		id:2,
 		destination_image:'https://cdn-image.hipwee.com/wp-content/uploads/2018/08/hipwee-jalan-malioboro-750x422.jpg',
-		destination_name:'Malioboro'
+		destination_name:'Malioboro',
+		latitude:-7.60765000,
+		longitude:110.20377300
 	}
 ]
 
@@ -48,8 +52,8 @@ class PackageDetail extends Component {
 //   };
 
 	gotoMap = () => {
-		// this.props.navigation.navigate('Maps',{destinations:this.props.packages.package.destinations});
-		this.props.navigation.navigate('Maps');
+		// console.log(this.props.packages.package)
+		this.props.navigation.navigate('Maps',{destinations:this.props.packages.package});
 	};
 
 	priceFormating = (price) => {
@@ -81,15 +85,17 @@ class PackageDetail extends Component {
 	);
 
 	componentWillMount() {
-		// AsyncStorage.getItem('token', (error, result) => {
-		// 	if (result) {
-		// 		let packageId = this.props.navigation.getParam('packageId');
-		// 		this.props.dispatch(fetchPackageById(result, packageId)).then(data => {
-		// 			this.setState({ isLoading: false });
-		// 		});
-		// 	}
-		// });
-		this.setState({ isLoading: false });
+		let packageId = this.props.navigation.state.params.id;
+		// console.warn(packageId)
+		AsyncStorage.getItem('token', (error, result) => {
+			if (result) {
+				console.warn(packageId)
+				this.props.dispatch(fetchPackageById(result, packageId)).then(data => {
+					this.setState({ isLoading: false });
+				});
+			}
+		});
+		
 	}
 
 	render() {
@@ -151,15 +157,14 @@ class PackageDetail extends Component {
 						<View style={styles.description}>
 							<Text style={styles.subTitle}>Included</Text>
 							<Text style={styles.caption}>
-							{/* {this.props.packages.package.included_fasilities} */}
-							hotel pickup
+							{this.props.navigation.state.params.included_fasilities}
 							</Text>
 						</View>
 						<View style={styles.description}>
 							<Text style={styles.subTitle}>Not included</Text>
 							<Text style={styles.caption}>
-								{/* {this.props.packages.package.nonincluded_fasilities} */}
-								no refund
+								{this.props.navigation.state.params.nonincluded_fasilities}
+								
 							</Text>
 						</View>
 					</ScrollView>

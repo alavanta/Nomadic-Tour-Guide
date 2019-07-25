@@ -15,17 +15,23 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Warning from './Error/Warning';
 
 class Maps extends Component {
-    state = {
-        destinations: this.props.navigation.getParam('destinations'),
-        markers: this.props.navigation.getParam('destinations'),
-        region: {
-            latitude: 45.52220671242907,
-            longitude: -122.6653281029795,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-        },
-        error: false
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            destinations: this.props.navigation.getParam('destinations'),
+            markers: this.props.navigation.getParam('destinations'),
+            region: {
+                latitude: 45.52220671242907,
+                longitude: -122.6653281029795,
+                latitudeDelta: LATITUDE_DELTA,
+                longitudeDelta: LONGITUDE_DELTA,
+            },
+            error: false
+        };
+        // console.log(this.props.navigation.state.params.destinations)
+        // console.log(this.props.navigation.getParam('destinations'))
+    }
+   
 
     componentWillMount() {
         this.index = 0;

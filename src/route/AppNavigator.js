@@ -21,7 +21,7 @@ const AppStack = createStackNavigator({
 	EditProfile: EditProfile,
 	ChangePassword: ChangePassword,
 	Maps:Maps,
-	PackageDetail:PackageDetail
+	PackageDetail:PackageDetail,
 	Chat: Chat
 
 },{

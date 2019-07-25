@@ -6,10 +6,11 @@ import {
   SafeAreaView,
   TouchableOpacity,
   FlatList,
-  AsyncStorage
+  AsyncStorage,
+  ActivityIndicator
 } from 'react-native';
 import { Button, Icon, Card } from 'react-native-elements';
-// import { fetchBooking } from '../../public/redux/action';
+import { fetchBooking } from '../../public/redux/actions';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 
@@ -42,17 +43,18 @@ class Booking extends Component {
     this.state = {
       // bookingData: booking,
     };
+    console.log(this.props)
   }
 
-  // componentDidMount() {
-  //   this.setState({ isLoading: true });
-  //   AsyncStorage.getItem('token', (error, result) => {
-  //     if (result) {
-  //       console.log(result)
-  //       this.props.dispatch(fetchBooking(result));
-  //     }
-  //   });
-  // }
+  componentDidMount() {
+    this.setState({ isLoading: true });
+    AsyncStorage.getItem('token', (error, result) => {
+      if (result) {
+        // console.log(result)
+        this.props.dispatch(fetchBooking(result));
+      }
+    });
+  }
 
   BookedList = ({ item, index }) => (
     <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -72,14 +74,20 @@ class Booking extends Component {
   );
 
   render() {
-    // if (this.props.booking.isLoading) {
-    //   return (
-    //     <View>
-    //       <Text style={{fontSize:20,alignSelf:'center'}}>Loading</Text>
-    //     </View>
-    //   );
-    // } else {
-      // console.log(this.props.booking.isError, 'DARI BOOKING');
+    // console.log(this.props.)
+    if (this.props.booking.isLoading) {
+      return (
+        <View style={{
+          flex: 1,
+          backgroundColor: 'white',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <ActivityIndicator size="large" color="#FF4453" />
+        </View>
+      );
+    } else {
+      console.log(this.props.booking.isError, 'DARI BOOKING');
       return (
         <View style={{ flex: 1 }}>
           <View
@@ -104,8 +112,7 @@ class Booking extends Component {
               alignItems: 'center'
             }}
           >
-           {/* { this.props.booking.isError == true ? ( */}
-            { booking.length == 0 ? (
+           { this.props.booking.isError == true ? (
               <View>
                 <Image
                   source={require('../../assets/list.png')}
@@ -117,9 +124,9 @@ class Booking extends Component {
                   }}
                 />
                 <Text style={{ fontSize: 17, alignSelf: 'center' }}>
-                  No booking..yet
+                  There is no order to show
                 </Text>
-                <Button
+                {/* <Button
                   containerStyle={{ alignSelf: 'center' }}
                   buttonStyle={{
                     backgroundColor: '#EF4453',
@@ -127,7 +134,7 @@ class Booking extends Component {
                     marginTop: 10
                   }}
                   title="Explore Now"
-                />
+                /> */}
               </View>
             ) : (
               <View style={{ flex: 1,marginBottom:10 }}>
@@ -136,8 +143,8 @@ class Booking extends Component {
                   keyExtractor={item => {
                     item.id.toString();
                   }}
-                  // data={this.props.booking.booking}
-                  data={booking}
+                  data={this.props.booking.booking}
+                  // data={booking}
                   renderItem={this.BookedList}
                 />
               </View>
@@ -147,13 +154,13 @@ class Booking extends Component {
       );
     }
   }
-// }
+}
 
-// const mapStateToProps = state => {
-//   return {
-//     booking: state.booking
-//   };
-// };
+const mapStateToProps = state => {
+  return {
+    booking: state.booking
+  };
+};
 
-// export default connect(mapStateToProps)(Booking);
-export default withNavigation(Booking);
+export default connect(mapStateToProps)(withNavigation(Booking));
+// export default withNavigation(Booking);
