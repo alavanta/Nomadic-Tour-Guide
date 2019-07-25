@@ -11,7 +11,6 @@ export default user = (state = initialState, action) => {
     switch (action.type) {
         case 'FETCH_DATA_USER_PENDING':
         case 'FETCH_USER_PENDING':
-            console.warn('masuk pending')
             return {
                 ...state,
                 isLoading: true,
@@ -20,8 +19,6 @@ export default user = (state = initialState, action) => {
             
         case 'FETCH_DATA_USER_REJECTED':
         case 'FETCH_USER_REJECTED':
-            
-            console.warn('masuk reject')
             return {
                 ...state,
                 isLoading: false,
