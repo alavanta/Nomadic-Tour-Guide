@@ -11,6 +11,7 @@ export default user = (state = initialState, action) => {
     switch (action.type) {
         case 'FETCH_DATA_USER_PENDING':
         case 'FETCH_USER_PENDING':
+        case 'CHANGE_PASSWORD_PENDING':
             console.warn('masuk pending')
             return {
                 ...state,
@@ -20,7 +21,7 @@ export default user = (state = initialState, action) => {
             
         case 'FETCH_DATA_USER_REJECTED':
         case 'FETCH_USER_REJECTED':
-            
+        case 'CHANGE_PASSWORD_REJECTED':
             console.warn('masuk reject')
             return {
                 ...state,
@@ -48,6 +49,15 @@ export default user = (state = initialState, action) => {
                 ...state,
                 isLoading:false,
                 isError:false,
+                isFinish:true,
+                data: action.payload.data.data
+            }
+        case 'CHANGE_PASSWORD_FULFILLED':
+            console.warn('masuk fulfilled')
+            return {
+                ...state,
+                isLoading: false,
+                isError: false,
                 isFinish:true,
                 data: action.payload.data.data
             }

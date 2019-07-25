@@ -142,9 +142,7 @@ class Profile extends Component {
 						<Button
 							buttonStyle={styles.buttonBottom}
 							title="Change Password"
-							onPress={() => {
-								this.props.navigation.navigate('ChangePassword')
-							}}
+							onPress={()=>this.props.navigation.navigate('PasswordChange')}
 						/>
 					</View>
 
@@ -227,4 +225,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps)(withNavigation(Profile));

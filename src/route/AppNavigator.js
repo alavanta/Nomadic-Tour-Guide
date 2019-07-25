@@ -16,7 +16,7 @@ const AppStack = createStackNavigator({
 
 	Home: Home,
 	EditProfile: EditProfile,
-	ChangePassword: ChangePassword
+	PasswordChange: ChangePassword
 
 },{
 	headerMode: 'none'
