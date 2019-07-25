@@ -11,12 +11,14 @@ import Login from '../screens/Login'
 import Home from '../screens/Home'
 import EditProfile from '../screens/EditProfile'
 import ChangePassword from '../screens/ChangePassword'
+import Chat from '../screens/Chat'
 
 const AppStack = createStackNavigator({
 
 	Home: Home,
 	EditProfile: EditProfile,
-	ChangePassword: ChangePassword
+	ChangePassword: ChangePassword,
+	Chat: Chat
 
 },{
 	headerMode: 'none'
