@@ -7,15 +7,21 @@ import {
 	ScrollView,
 	TextInput,
 	FlatList,
-	Picker
+	Picker,
+	AsyncStorage,
+	Alert
 } from 'react-native'
 
 import {
 	Button
 } from 'react-native-elements'
 
+
 import Header from '../components/HeaderBack'
 import ListSkills from '../components/ListSkills'
+
+import { changePassword } from '../public/redux/actions';
+import { connect } from 'react-redux';
 
 class EditProfile extends Component {
 
@@ -64,6 +70,19 @@ class EditProfile extends Component {
 		}
 
 	}
+	changePasswordUser = () => {
+		AsyncStorage.getItem('token').then((res) => {
+			let data = {
+				oldPassword : this.state.oldPassword,
+				newPassword: this.state.newPassword
+			};
+			this.props.dispatch(changePassword(res,data)).then((success)=>{
+				Alert.alert('Success','Password been changed successfully.')
+			}).catch(err => {
+				Alert.alert('Error','Old password not match ! please check again your password !')
+			})
+		})
+	}
 
 	confirmPasswordChange = async (value) => {
 
@@ -71,6 +90,7 @@ class EditProfile extends Component {
 			
 			confirmPassword: value
 		})
+	
 
 		if ( this.state.confirmPassword !== this.state.newPassword ) {
 
@@ -82,8 +102,7 @@ class EditProfile extends Component {
 		} else {
 
 			this.setState({
-				
-				confirmPasswordValidate: false
+				confirmPasswordValidate: false,
 			})
 		}
 
@@ -163,6 +182,7 @@ class EditProfile extends Component {
 								}
 								buttonStyle={styles.loginButton}
 								title="Confirm"
+								onPress={()=>this.changePasswordUser()}
 							/>
 						</View>
 
@@ -175,7 +195,6 @@ class EditProfile extends Component {
 	}
 }
 
-export default EditProfile
 
 const styles = StyleSheet.create({
 	bodyParent: {
@@ -229,3 +248,11 @@ const styles = StyleSheet.create({
 		paddingVertical: 7
 	}
 })
+
+const mapStateToProps = state => {
+	return {
+		user: state.user.data
+	};
+};
+
+export default connect(mapStateToProps)(EditProfile);

@@ -18,4 +18,12 @@ export const fetchDataUser = (token) => {
     }
 }
 
+export const changePassword = (token,data) => {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    return {
+        type: 'CHANGE_PASSWORD',
+        payload: axios.post(`${url}/tourGuide/password`,data)
+    }
+}
+
 
