@@ -6,6 +6,8 @@ import {
 	StatusBar,
 	YellowBox
 } from 'react-native'
+import store from './src/public/redux/store';
+import { Provider } from 'react-redux';
 
 import AppNavigation from './src/route/AppNavigator'
 
@@ -13,16 +15,19 @@ YellowBox.ignoreWarnings(['ViewPagerAndroid']);
 YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
 
 export default class App extends Component {
-	render () {
+	render() {
 		return (
-			<View style={styles.container}>
-				<StatusBar
-			        translucent
-			        barStyle="dark-content"
-			        backgroundColor="rgba(0, 0, 0, 0.0)"
-		        />
-				<AppNavigation />
-			</View>
+			<Provider store={store}>
+				<View style={styles.container}> 
+					<StatusBar
+						translucent
+						barStyle="dark-content"
+						backgroundColor="rgba(0, 0, 0, 0.0)"
+					/>
+					<AppNavigation />
+				</View>
+			</Provider>
+
 		)
 	}
 }
