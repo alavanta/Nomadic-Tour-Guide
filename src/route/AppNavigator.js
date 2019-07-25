@@ -9,10 +9,12 @@ import {
 import AuthLoading from '../screens/AuthLoading'
 import Login from '../screens/Login'
 import Home from '../screens/Home'
+import EditProfile from '../screens/EditProfile'
 
 const AppStack = createStackNavigator({
 
-	Home: Home
+	Home: Home,
+	EditProfile: EditProfile
 
 },{
 	headerMode: 'none'
@@ -30,8 +32,9 @@ const AuthStack = createStackNavigator({
 
 const swicthNav = createSwitchNavigator({
 
-	AuthLoading: Home,
-	AuthStack: AuthStack
+	AuthLoading: AuthLoading,
+	AuthStack: AuthStack,
+	AppStack: AppStack
 },
 {
 	initialRouteName: 'AuthLoading'
