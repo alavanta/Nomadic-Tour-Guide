@@ -30,7 +30,8 @@ const AuthStack = createStackNavigator({
 
 const swicthNav = createSwitchNavigator({
 
-	AuthLoading: Home,
+	AuthLoading: AuthLoading,
+	AppStack: AppStack,
 	AuthStack: AuthStack
 },
 {

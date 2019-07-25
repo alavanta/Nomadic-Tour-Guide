@@ -6,6 +6,8 @@ import {
 	Image,
 	TextInput
 } from 'react-native'
+import { connect } from 'react-redux';
+import { fetchUser } from '../public/redux/actions';
 
 import Entypo from 'react-native-vector-icons/dist/Entypo';
 
@@ -13,71 +15,85 @@ import {
 	Button
 } from 'react-native-elements'
 
-class ForgotPassword extends Component {
+class Login extends Component {
 
 	constructor(props) {
-	  	super(props);
-	
-	  	this.state = {
-	  		email: '',
-	  		errEmail: '',
-	  		password: '',
-	  		errPassword: '',
-	  	};
+		super(props);
+		this.state = {
+			email: '',
+			errEmail: '',
+			password: '',
+			errPassword: '',
+		};
 	}
 
 
 	emailChange = (email) => {
-
 		let emailVal = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-	    if (emailVal.test(email) === false) {
-
-	      	this.setState({
-
-	      		email: email,
-	        	errEmail: 'Wrong email format'
-	      	});
-	      	
-
-	   	} else {
-
-	      	this.setState({
-	        	email: email,
-	        	errEmail: false
-	      	});
-
-	    }
+		if (emailVal.test(email) === false) {
+			this.setState({
+				email: email,
+				errEmail: 'Wrong email format'
+			});
+		} else {
+			this.setState({
+				email: email,
+				errEmail: false
+			});
+		}
 	}
 
 	passwordChange = async (password) => {
-
 		await this.setState({
 			password: password,
 		})
-
 		if (this.state.password.length < 6) {
-
 			this.setState({
-
 				errPassword: 'Password should be at least 6 characters',
 			})
 		} else {
-
 			this.setState({
-
 				errPassword: false,
 			})
 		}
-
 	}
 
+	validate = () => {
+		if (this.state.errEmail === false && this.state.errPassword == false) {
+			console.warn('masuk ke login Handler');
+			this.loginHandler();
+		}
+	};
 
-	render () {
+	loginHandler = async () => {
+		this.setState({
+			isLoading: true
+		})
+		let { email, password } = this.state;
+		let data = {
+			email,
+			password
+		};
+		await this.props
+			.dispatch(fetchUser(data))
+			.then(success => {
+				this.props.navigation.navigate('Home');
+				this.setState({
+					isLoading: false
+				})
+			})
+			.catch(err => {
+				this.setState({ errAuth: true });
+			});
+	};
+
+
+	render() {
 		return (
 			<View style={styles.bodyParent}>
 
 				<View style={styles.parentHeader}>
-					
+
 					<View style={styles.textWrap}>
 						<Text style={styles.headerText}>Login</Text>
 					</View>
@@ -93,42 +109,39 @@ class ForgotPassword extends Component {
 
 				<View style={styles.bodyContain}>
 
-					<View style={{ width: '100%', paddingHorizontal: 30}}>
+					<View style={{ width: '100%', paddingHorizontal: 30 }}>
 
 						<View style={styles.form}>
-
-							<TextInput 
-								placeholder="E - Mail" 
-								style={styles.textInput} 
+							<TextInput
+								placeholder="E - Mail"
 								value={this.state.email}
 								onChangeText={this.emailChange}
+								underlineColorAndroid="#EF4453"
 							/>
-							<Text style={{color: 'red', top: 5, left: 10}}>{this.state.errEmail}</Text>
+							<Text style={{ color: 'red', top: 5, left: 10 }}>{this.state.errEmail}</Text>
 						</View>
 
 						<View style={styles.form}>
 
-							<TextInput 
-								placeholder="Password" 
-								style={styles.textInput} 
+							<TextInput
+								placeholder="Password"
 								value={this.state.password}
 								onChangeText={this.passwordChange}
 								secureTextEntry={true}
+								underlineColorAndroid="#EF4453"
 							/>
-							<Text style={{color: 'red', top: 5, left: 10}}>{this.state.errPassword}</Text>
+							<Text style={{ color: 'red', top: 5, left: 10 }}>{this.state.errPassword}</Text>
 						</View>
 
 						<View style={styles.buttonWrap}>
 							<Button
 								disabled={
-					              	this.state.errEmail !== false ? true 
-					            	: (this.state.errPassword !== false ? true : false)
-					            }
+									this.state.errEmail !== false ? true
+										: (this.state.errPassword !== false ? true : false)
+								}
 								buttonStyle={styles.loginButton}
 								title="Next"
-								onPress={() => {
-									this.props.navigation.navigate('otpCode')
-								}}
+								onPress={this.validate}
 							/>
 						</View>
 
@@ -140,8 +153,6 @@ class ForgotPassword extends Component {
 		)
 	}
 }
-
-export default ForgotPassword;
 
 const styles = StyleSheet.create({
 	bodyParent: {
@@ -170,20 +181,19 @@ const styles = StyleSheet.create({
 	},
 	textWrap: {
 		flex: 1,
-		alignItems: 'flex-end'
+		alignItems: 'flex-start'
 	},
 	headerText: {
 		fontSize: 18,
 		fontWeight: 'bold',
-		right: 20
+		left: 10
 	},
 	bodyContain: {
 		flex: 1,
 		justifyContent: 'center'
 	},
 	form: {
-		width: '100%',
-		marginVertical: 10
+		width: '100%'
 	},
 	titleInput: {
 		fontSize: 18,
@@ -206,3 +216,11 @@ const styles = StyleSheet.create({
 		paddingVertical: 7
 	}
 })
+
+const mapStateToProps = state => {
+	return {
+		user: state.user
+	};
+};
+
+export default connect(mapStateToProps)(Login);

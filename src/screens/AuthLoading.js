@@ -19,7 +19,7 @@ class AuthLoading extends Component {
 	checkLogin = async () => {
 		await AsyncStorage.getItem('token', (error, result) => {
 			if (result) {
-
+				this.props.navigation.navigate('AppStack');
 			} else {
 				this.props.navigation.navigate('AuthStack')
 			}
