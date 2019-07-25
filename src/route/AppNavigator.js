@@ -13,6 +13,7 @@ import EditProfile from '../screens/EditProfile'
 import ChangePassword from '../screens/ChangePassword'
 import Maps from '../screens/Maps'
 import PackageDetail from '../screens/PackageDetail'
+import Chat from '../screens/Chat'
 
 const AppStack = createStackNavigator({
 
@@ -21,6 +22,7 @@ const AppStack = createStackNavigator({
 	ChangePassword: ChangePassword,
 	Maps:Maps,
 	PackageDetail:PackageDetail
+	Chat: Chat
 
 },{
 	headerMode: 'none'

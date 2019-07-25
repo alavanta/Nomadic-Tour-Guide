@@ -28,6 +28,7 @@ class Login extends Component {
 	}
 
 
+
 	emailChange = (email) => {
 		let emailVal = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 		if (emailVal.test(email) === false) {
@@ -58,9 +59,24 @@ class Login extends Component {
 		}
 	}
 
-	validate = () => {
+	validate = async () => {
 		if (this.state.errEmail === false && this.state.errPassword == false) {
-			console.warn('masuk ke login Handler');
+			let { email, password } = this.state;
+			let data = {
+				email,
+				password
+			};
+			await this.props
+				.dispatch(fetchUser(data))
+				.then(success => {
+					this.props.navigation.navigate('Home');
+					this.setState({
+						isLoading: false
+					})
+				})
+				.catch(err => {
+					this.setState({ errAuth: true });
+				});
 			this.loginHandler();
 		}
 	};

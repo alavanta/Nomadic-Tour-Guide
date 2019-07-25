@@ -21,7 +21,7 @@ class AuthLoading extends Component {
 			if (result) {
 				this.props.navigation.navigate('AppStack')
 			} else {
-				this.props.navigation.navigate('AppStack')
+				this.props.navigation.navigate('AuthStack')
 			}
 		})
 	}
