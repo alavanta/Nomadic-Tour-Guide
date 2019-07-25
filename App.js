@@ -10,6 +10,7 @@ import {
 import AppNavigation from './src/route/AppNavigator'
 
 YellowBox.ignoreWarnings(['ViewPagerAndroid']);
+YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
 
 export default class App extends Component {
 	render () {

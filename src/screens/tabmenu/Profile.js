@@ -14,7 +14,15 @@ import Fontisto from 'react-native-vector-icons/dist/Fontisto';
 import Entypo from 'react-native-vector-icons/dist/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
+import { withNavigation } from 'react-navigation'
+
 class Profile extends Component {
+
+
+
+	handleEditProfile = () => {
+		this.props.navigation.navigate('EditProfile')
+	}
 
     render() {
         return (
@@ -95,6 +103,16 @@ class Profile extends Component {
 
 					<View style={styles.textContainer}>
 						<Entypo
+                          	name="phone"
+                          	size={18}
+                        />
+                        <Text style={{marginLeft: 10, fontWeight:'bold'}}>
+                        	085336685269
+                        </Text>
+					</View>
+
+					<View style={styles.textContainer}>
+						<Entypo
                           	name="location-pin"
                           	size={18}
                         />
@@ -154,6 +172,7 @@ class Profile extends Component {
 								backgroundColor: '#FF4453'
 							}]}
 							title="Edit Profile"
+							onPress={this.handleEditProfile}
 						/>
 						<Button
 							buttonStyle={styles.buttonBottom}
@@ -230,7 +249,18 @@ const styles = StyleSheet.create({
 		borderBottomLeftRadius: 5,
 		paddingVertical: 7,
 		marginBottom: 20,
+	},
+	buttonWrap: {
+		width: '100%',
+		marginTop: 20
+	},
+	loginButton: {
+		backgroundColor: '#FF4453',
+		borderBottomRightRadius: 5,
+		borderTopLeftRadius: 5,
+		borderBottomLeftRadius: 5,
+		paddingVertical: 7
 	}
 })
 
-export default Profile;
+export default withNavigation(Profile);
